@@ -1,13 +1,21 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import Default from './layouts/Default'
-import Home from './pages/Home'
-import About from './pages/About'
-import SignIn from './pages/SignIn'
-import Movies from './pages/Movies'
-import MovieDetails from './pages/MovieDetails'
-import NotFound from './pages/NotFound'
 import { requiresAuth } from './loaders/requiresAuth'
 import { guesstOnly } from '@/routes/loaders/guesstOnly'
+
+import { lazy, Suspense } from 'react'
+// import Home from './pages/Home'
+// import About from './pages/About'
+// import SignIn from './pages/SignIn'
+// import Movies from './pages/Movies'
+// import MovieDetails from './pages/MovieDetails'
+// import NotFound from './pages/NotFound'
+const Home = lazy(() => import('@/routes/pages/Home'))
+const About = lazy(() => import('@/routes/pages/About'))
+const SignIn = lazy(() => import('@/routes/pages/SignIn'))
+const Movies = lazy(() => import('@/routes/pages/Movies'))
+const MovieDetails = lazy(() => import('@/routes/pages/MovieDetails'))
+const NotFound = lazy(() => import('@/routes/pages/NotFound'))
 
 // https:://heropy.dev/ => /index.html
 // https:://heropy.dev/about => /about/index.html => 리다이렉트 -> /index.html
@@ -21,11 +29,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: (
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Home />
+          </Suspense>
+        )
       },
       {
         path: '/about',
-        element: <About />
+        element: (
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <About />
+          </Suspense>
+        )
       },
       {
         path: '/signin',
