@@ -7,6 +7,7 @@ import Movies from './pages/Movies'
 import MovieDetails from './pages/MovieDetails'
 import NotFound from './pages/NotFound'
 import { requiresAuth } from './loaders/requiresAuth'
+import { guesstOnly } from '@/routes/loaders/guesstOnly'
 
 // https:://heropy.dev/ => /index.html
 // https:://heropy.dev/about => /about/index.html => 리다이렉트 -> /index.html
@@ -28,12 +29,14 @@ const router = createBrowserRouter([
       },
       {
         path: '/signin',
-        element: <SignIn />
+        //로그인했는데 로그인 페이지로 진입 불가
+        element: <SignIn />,
+        loader: guesstOnly
       },
       {
         path: '/movies',
         element: <Movies />,
-        loader: requiresAuth,
+        loader: requiresAuth, //로그인 하지 않으면 Movies 페이지로 이동 불가능
         children: [
           {
             path: '/movies/:movieId',
