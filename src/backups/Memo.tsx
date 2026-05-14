@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 
-function getDouble(count) {
+function getDouble(count: number) {
   return count * 2
 }
 

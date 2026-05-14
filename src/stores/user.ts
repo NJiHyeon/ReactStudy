@@ -16,7 +16,7 @@ create(
           }
         }
       },
-      (set, get) => ({
+      set => ({
         setUserFirstEmail(newEmail: string) {
           set(state => {
             state.user.address.emails[0] = newEmail
