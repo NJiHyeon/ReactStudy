@@ -20,6 +20,9 @@ export default function SignIn() {
     //navigate('/', { replace: true }): 내역을 쌓지 않으면서 이동
     //navigate(n): n칸 앞으로 이동
     navigate('/')
+
+    //로그인 실패 시 처리
+    //...
   }
 
   return (

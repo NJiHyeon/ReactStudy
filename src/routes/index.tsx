@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn'
 import Movies from './pages/Movies'
 import MovieDetails from './pages/MovieDetails'
 import NotFound from './pages/NotFound'
+import { requiresAuth } from './loaders/requiresAuth'
 
 // https:://heropy.dev/ => /index.html
 // https:://heropy.dev/about => /about/index.html => 리다이렉트 -> /index.html
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       {
         path: '/movies',
         element: <Movies />,
+        loader: requiresAuth,
         children: [
           {
             path: '/movies/:movieId',
