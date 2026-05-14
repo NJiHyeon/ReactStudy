@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 import Default from './layouts/Default'
 import { requiresAuth } from './loaders/requiresAuth'
 import { guesstOnly } from '@/routes/loaders/guesstOnly'
+import Loader from '@/components/Loader'
 
 import { lazy, Suspense } from 'react'
 // import Home from './pages/Home'
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: (
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <Suspense fallback={<Loader />}>
             <Home />
           </Suspense>
         )
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: (
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <Suspense fallback={<Loader />}>
             <About />
           </Suspense>
         )
