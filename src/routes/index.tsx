@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
-import Default from './layouts/Default'
+import { ErrorBoundary } from 'react-error-boundary'
 import { requiresAuth } from './loaders/requiresAuth'
 import { guesstOnly } from '@/routes/loaders/guesstOnly'
+import Default from './layouts/Default'
 import Loader from '@/components/Loader'
 
 import { lazy, Suspense } from 'react'
@@ -31,9 +32,18 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: (
-          <Suspense fallback={<Loader />}>
-            <Home />
-          </Suspense>
+          <ErrorBoundary
+            fallbackRender={({ error }) => {
+              let message = ''
+              if (error instanceof Error) {
+                message = error.message
+              }
+              return <h1>에러가 발생했어요. {message}</h1>
+            }}>
+            <Suspense fallback={<Loader />}>
+              <Home />
+            </Suspense>
+          </ErrorBoundary>
         )
       },
       {
