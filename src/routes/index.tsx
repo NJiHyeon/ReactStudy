@@ -1,7 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import { ErrorBoundary } from 'react-error-boundary'
-import { requiresAuth } from './loaders/requiresAuth'
-import { guesstOnly } from '@/routes/loaders/guesstOnly'
+
+// import { requiresAuth } from './loaders/requiresAuth'
+// import { guesstOnly } from '@/routes/loaders/guesstOnly'
+//Barrel 파일 형태로 수정
+import { requiresAuth, guesstOnly } from '@/routes/loaders/'
+
 import Default from './layouts/Default'
 import Loader from '@/components/Loader'
 

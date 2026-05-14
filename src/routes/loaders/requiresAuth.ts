@@ -11,7 +11,7 @@ interface Context {
   request: Request
 }
 
-export function requiresAuth({ request }: Context) {
+export default function requiresAuth({ request }: Context) {
   //사용자가 로그인 전 Movies 페이지로 접근했다고 가정 => 로그인 후 Home이 아닌 Movies로 이동해야 함.
   //request.url: http:://localhost.5175/movies
   const url = new URL(request.url) //객체 데이터 반환
