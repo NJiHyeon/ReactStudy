@@ -30,6 +30,8 @@ const Movies = dynamic(() => import('@/routes/pages/Movies'))
 const MovieDetails = dynamic(() => import('@/routes/pages/MovieDetails'))
 const NotFound = dynamic(() => import('@/routes/pages/NotFound'))
 
+const Todos = dynamic(() => import('@/routes/pages/Todos'))
+
 // https:://heropy.dev/ => /index.html
 // https:://heropy.dev/about => /about/index.html => 리다이렉트 -> /index.html
 // https:://heropy.dev/signin => /about/index.html => 리다이렉트 -> /index.html
@@ -64,6 +66,10 @@ const router = createBrowserRouter([
             element: <MovieDetails />
           }
         ]
+      },
+      {
+        path: '/todos',
+        element: <Todos />
       },
       {
         path: '*',

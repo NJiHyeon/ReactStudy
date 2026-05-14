@@ -1,10 +1,13 @@
+//상단 기본 버튼 만들기
+
 import { NavLink } from 'react-router'
 
 const navigations = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
   { to: '/signin', label: 'Log In' },
-  { to: '/movies', label: 'Movies' }
+  { to: '/movies', label: 'Movies' },
+  { to: '/todos', label: 'Todos' }
 ]
 
 export default function Header() {
