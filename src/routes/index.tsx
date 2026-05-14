@@ -1,27 +1,34 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
-import { ErrorBoundary } from 'react-error-boundary'
 
 // import { requiresAuth } from './loaders/requiresAuth'
 // import { guesstOnly } from '@/routes/loaders/guesstOnly'
 //Barrel 파일 형태로 수정
-import { requiresAuth, guesstOnly } from '@/routes/loaders/'
+import { requiresAuth, guesstOnly } from '@/routes/loaders'
 
 import Default from './layouts/Default'
 import Loader from '@/components/Loader'
 
-import { lazy, Suspense } from 'react'
+import { dynamic } from '@/utils'
 // import Home from './pages/Home'
 // import About from './pages/About'
 // import SignIn from './pages/SignIn'
 // import Movies from './pages/Movies'
 // import MovieDetails from './pages/MovieDetails'
 // import NotFound from './pages/NotFound'
-const Home = lazy(() => import('@/routes/pages/Home'))
-const About = lazy(() => import('@/routes/pages/About'))
-const SignIn = lazy(() => import('@/routes/pages/SignIn'))
-const Movies = lazy(() => import('@/routes/pages/Movies'))
-const MovieDetails = lazy(() => import('@/routes/pages/MovieDetails'))
-const NotFound = lazy(() => import('@/routes/pages/NotFound'))
+const Home = dynamic(() => import('@/routes/pages/Home'), {
+  // error: () => <div>나만의 에러 메시지~</div>
+  error: ({ error }) => {
+    let message = ''
+    if (error instanceof Error) message = error.message
+    return <h1>에러가 발생했어유... {message}</h1>
+  },
+  loading: <Loader />
+})
+const About = dynamic(() => import('@/routes/pages/About'))
+const SignIn = dynamic(() => import('@/routes/pages/SignIn'))
+const Movies = dynamic(() => import('@/routes/pages/Movies'))
+const MovieDetails = dynamic(() => import('@/routes/pages/MovieDetails'))
+const NotFound = dynamic(() => import('@/routes/pages/NotFound'))
 
 // https:://heropy.dev/ => /index.html
 // https:://heropy.dev/about => /about/index.html => 리다이렉트 -> /index.html
@@ -35,28 +42,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: (
-          <ErrorBoundary
-            fallbackRender={({ error }) => {
-              let message = ''
-              if (error instanceof Error) {
-                message = error.message
-              }
-              return <h1>에러가 발생했어요. {message}</h1>
-            }}>
-            <Suspense fallback={<Loader />}>
-              <Home />
-            </Suspense>
-          </ErrorBoundary>
-        )
+        element: <Home />
       },
       {
         path: '/about',
-        element: (
-          <Suspense fallback={<Loader />}>
-            <About />
-          </Suspense>
-        )
+        element: <About />
       },
       {
         path: '/signin',
