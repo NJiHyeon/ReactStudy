@@ -37,7 +37,7 @@ export interface Rating {
 
 export default function MovieDetails() {
   const navigate = useNavigate()
-  const { movieId } = useParams()
+  const { movieId } = useParams() //동적 세그먼트 정보만 들어있다.
   const [movie, setMovie] = useState<MovieDetails | null>(null)
 
   useEffect(() => {

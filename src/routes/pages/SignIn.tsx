@@ -1,6 +1,6 @@
 import TextField from '@/components/TextField'
 import Button from '@/components/Button'
-import { useNavigate } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import { useState } from 'react'
 
 export default function SignIn() {
@@ -8,6 +8,8 @@ export default function SignIn() {
   const navigate = useNavigate()
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
+  const [searchParams] = useSearchParams() //setSearchParams는 사용하지 않으므로 뺌뺌
+  const returnUrl = searchParams.get('returnUrl') // '/movies'
 
   function signIn() {
     //1.서버로 ID/PW 전송 => ID/PW 검사 => 로그인 승인 => 정상 응답(사용자 정보 + 엑세스 토큰)
@@ -19,7 +21,7 @@ export default function SignIn() {
     //2.페이지 이동
     //navigate('/', { replace: true }): 내역을 쌓지 않으면서 이동
     //navigate(n): n칸 앞으로 이동
-    navigate('/')
+    navigate(returnUrl || '/')
 
     //로그인 실패 시 처리
     //...
