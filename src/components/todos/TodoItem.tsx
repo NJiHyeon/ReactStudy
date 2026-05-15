@@ -11,6 +11,7 @@ export default function TodoItem({ todo }: Props) {
   const [title, setTitle] = useState(todo.title)
   const inputRef = useRef<HTMLInputElement>(null) //input 요소에 연결된다는 타입 이해할 수 있음
   const updateTodo = useTodoStore(s => s.updateTodo)
+  const deleteTodo = useTodoStore(s => s.deleteTodo)
 
   useEffect(() => {
     if (isEditMode) {
@@ -64,7 +65,7 @@ export default function TodoItem({ todo }: Props) {
           />
           <button onClick={() => offEditMode()}>취소</button>
           <button onClick={() => saveTodo()}>저장</button>
-          <button>삭제</button>
+          <button onClick={() => deleteTodo(todo)}>삭제</button>
         </>
       ) : (
         //일반모드

@@ -23,7 +23,7 @@ const api = axios.create({
 
 export const useTodoStore = create(
   combine(
-    //state
+    //state 부분
     {
       todos: [] as Todo[],
       title: '',
@@ -31,10 +31,12 @@ export const useTodoStore = create(
       isLoadingForCreate: false //중복입력 방지 위함
     },
     (set, get) => {
-      //action
+      //action 부분
       function setTitle(title: string) {
         set({ title }) //title: title와 동일
       }
+
+      //불러오기
       async function fetchTodos() {
         try {
           set({ isLoadingForFetch: true })
@@ -48,6 +50,8 @@ export const useTodoStore = create(
           set({ isLoadingForFetch: false })
         }
       }
+
+      //추가
       async function createTodo() {
         const { title } = get()
         if (!title.trim()) return
@@ -62,6 +66,7 @@ export const useTodoStore = create(
           set({ isLoadingForCreate: false }) //로딩 종료
         }
       }
+
       //저장
       async function updateTodo(todo: Todo) {
         await api.put(`/${todo.id}`, {
@@ -70,11 +75,18 @@ export const useTodoStore = create(
         })
         fetchTodos()
       }
+
+      //삭제
+      async function deleteTodo(todo: Todo) {
+        await api.delete(`/${todo.id}`)
+        fetchTodos()
+      }
       return {
         setTitle: setTitle,
         fetchTodos: fetchTodos,
         createTodo: createTodo,
-        updateTodo: updateTodo
+        updateTodo: updateTodo,
+        deleteTodo: deleteTodo
       }
     }
   )
