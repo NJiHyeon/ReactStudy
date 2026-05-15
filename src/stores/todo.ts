@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { combine } from 'zustand/middleware'
 import axios from 'axios'
 
-interface Todo {
+export interface Todo {
   id: string // 할 일 ID
   order: number // 할 일 순서
   title: string // 할 일 제목
