@@ -47,7 +47,7 @@ export const useTodoStore = create(
           set({ isLoading: true }) //로딩 시작
           await api.post('', { title }) //요청 전송 (title:title과 같음)
           setTitle('')
-          await fetchTodos()
+          fetchTodos()
         } catch (error) {
           console.log('생성 에러:', error)
         } finally {

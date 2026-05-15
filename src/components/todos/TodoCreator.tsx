@@ -23,6 +23,7 @@ export default function TodoCreator() {
         placeholder="할 일을 입력하세요~"
       />
       <Button
+        loading={isLoading}
         disabled={isLoading}
         onClick={() => createTodo()}>
         추가
