@@ -26,7 +26,8 @@ export const useTodoStore = create(
     //state
     {
       todos: [] as Todo[],
-      title: ''
+      title: '',
+      isLoading: false //중복입력 방지 위함
     },
     (set, get) => {
       //action
@@ -42,8 +43,16 @@ export const useTodoStore = create(
       async function createTodo() {
         const { title } = get()
         if (!title.trim()) return
-        await api.post('', { title }) //요청 전송 (title:title과 같음)
-        await fetchTodos()
+        try {
+          set({ isLoading: true }) //로딩 시작
+          await api.post('', { title }) //요청 전송 (title:title과 같음)
+          setTitle('')
+          await fetchTodos()
+        } catch (error) {
+          console.log('생성 에러:', error)
+        } finally {
+          set({ isLoading: false }) //로딩 종료
+        }
       }
       return {
         setTitle: setTitle,
