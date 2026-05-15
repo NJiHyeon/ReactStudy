@@ -1,5 +1,6 @@
 import type { Todo } from '@/stores/todo'
 import { useState, useRef, useEffect } from 'react'
+import { useTodoStore } from '@/stores/todo'
 
 interface Props {
   todo: Todo
@@ -9,6 +10,7 @@ export default function TodoItem({ todo }: Props) {
   const [isEditMode, setIsEditMode] = useState(false)
   const [title, setTitle] = useState(todo.title)
   const inputRef = useRef<HTMLInputElement>(null) //input 요소에 연결된다는 타입 이해할 수 있음
+  const updateTodo = useTodoStore(s => s.updateTodo)
 
   useEffect(() => {
     if (isEditMode) {
@@ -24,9 +26,20 @@ export default function TodoItem({ todo }: Props) {
     // inputRef.current?.focus() => useEffect 내로 이동
   }
 
-  function offEditMode() {
+  function offEditMode(isSave: boolean = false) {
     setIsEditMode(false)
-    setTitle(todo.title) //취소하면 원래대로 돌려놓기
+    if (!isSave) setTitle(todo.title) //취소하면 원래대로 돌려놓기
+  }
+
+  function saveTodo() {
+    if (!title.trim()) return //빈 값 전송X
+    if (title.trim() === todo.title) return //같은 값 전송X
+    updateTodo({
+      ...todo,
+      title: title,
+      done: todo.done
+    })
+    offEditMode(true) //저장 후 다시 수정했을 때 원래대로 돌아가는 이슈 수정
   }
 
   return (
@@ -43,9 +56,14 @@ export default function TodoItem({ todo }: Props) {
             type="text"
             value={title} //todo.title로 하면 수정입력 안됨!
             onChange={e => setTitle(e.target.value)}
+            onKeyDown={e => {
+              if (e.nativeEvent.isComposing) return
+              if (e.key === 'Enter') saveTodo()
+              if (e.key === 'Escape') offEditMode()
+            }}
           />
           <button onClick={() => offEditMode()}>취소</button>
-          <button>저장</button>
+          <button onClick={() => saveTodo()}>저장</button>
           <button>삭제</button>
         </>
       ) : (

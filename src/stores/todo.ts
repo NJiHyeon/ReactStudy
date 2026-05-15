@@ -62,10 +62,19 @@ export const useTodoStore = create(
           set({ isLoadingForCreate: false }) //로딩 종료
         }
       }
+      //저장
+      async function updateTodo(todo: Todo) {
+        await api.put(`/${todo.id}`, {
+          title: todo.title,
+          done: todo.done
+        })
+        fetchTodos()
+      }
       return {
         setTitle: setTitle,
         fetchTodos: fetchTodos,
-        createTodo: createTodo
+        createTodo: createTodo,
+        updateTodo: updateTodo
       }
     }
   )
