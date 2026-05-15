@@ -53,13 +53,14 @@ export default function TodoItem({ todo }: Props) {
 
   return (
     <div className="flex items-center gap-2 hover:bg-gray-100">
+      <input
+        type="checkbox"
+        checked={done} //todo.done을 하면 수정할 수 있는 권한이 없음 => 반응형 데이터 만들어주기
+        onChange={e => setDone(e.target.checked)}
+      />
       {isEditMode ? (
         //수정모드
         <>
-          <input
-            type="checkbox"
-            checked={todo.done}
-          />
           <input
             ref={inputRef} //참조걸기
             type="text"
@@ -78,11 +79,6 @@ export default function TodoItem({ todo }: Props) {
       ) : (
         //일반모드
         <>
-          <input
-            type="checkbox"
-            checked={done} //todo.done을 하면 수정할 수 있는 권한이 없음 => 반응형 데이터 만들어주기
-            onChange={e => setDone(e.target.checked)}
-          />
           <h3 className="grow">{todo.title}</h3>
           <button onClick={() => onEditMode()}>수정</button>
         </>
