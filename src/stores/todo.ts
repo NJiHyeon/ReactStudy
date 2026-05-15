@@ -28,23 +28,28 @@ export const useTodoStore = create(
       todos: [] as Todo[],
       title: ''
     },
-    (set, get) => ({
+    (set, get) => {
       //action
-      setTitle(title: string) {
+      function setTitle(title: string) {
         set({ title }) //title: title와 동일
-      },
-      async fetchTodos() {
+      }
+      async function fetchTodos() {
         const { data } = await api.get('') //base URL 뒤에 ''가 붙는다.
         set({
           todos: data || []
         })
-      },
-      async createTodo() {
+      }
+      async function createTodo() {
         const { title } = get()
         if (!title.trim()) return
-        const todo = api.post('', { title }) //요청 전송 (title:title과 같음)
-        //목록 갱신: 1)생성된 투두 끼워넣기, 2)목록 다시 가져오기
+        await api.post('', { title }) //요청 전송 (title:title과 같음)
+        await fetchTodos()
       }
-    })
+      return {
+        setTitle: setTitle,
+        fetchTodos: fetchTodos,
+        createTodo: createTodo
+      }
+    }
   )
 )
