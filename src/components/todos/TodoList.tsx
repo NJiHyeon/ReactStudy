@@ -4,7 +4,7 @@ import Loader from '@/components/Loader'
 import TodoItem from '@/components/todos/TodoItem' //./TodoItem
 
 export default function TodoList() {
-  const todos = useTodoStore(s => s.todos)
+  const todos = useTodoStore(s => s.filteredTodos)
   const isLoading = useTodoStore(s => s.isLoadingForFetch)
   const fetchTodos = useTodoStore(s => s.fetchTodos)
 

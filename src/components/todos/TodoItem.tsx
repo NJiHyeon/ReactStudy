@@ -27,6 +27,7 @@ export default function TodoItem({ todo }: Props) {
       ...todo,
       done: done
     })
+    //eslint-disable-next-line
   }, [done])
 
   function onEditMode() {
