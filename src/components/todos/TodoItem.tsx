@@ -9,22 +9,30 @@ interface Props {
 export default function TodoItem({ todo }: Props) {
   const [isEditMode, setIsEditMode] = useState(false)
   const [title, setTitle] = useState(todo.title)
+  const [done, setDone] = useState(todo.done)
   const inputRef = useRef<HTMLInputElement>(null) //input 요소에 연결된다는 타입 이해할 수 있음
   const updateTodo = useTodoStore(s => s.updateTodo)
   const deleteTodo = useTodoStore(s => s.deleteTodo)
 
+  //데이터 감시 위함
   useEffect(() => {
     if (isEditMode) {
       inputRef.current?.focus() //수정 버튼 누르면 자동 포커스
     }
   }, [isEditMode])
 
+  useEffect(() => {
+    if (done === todo.done) return //안하면 최초 한번 실행될 때 모든 값들이 전송된다.
+    updateTodo({
+      ...todo,
+      done: done
+    })
+  }, [done])
+
   function onEditMode() {
     setIsEditMode(true) //데이터만 수정
     // setter는 비동기적으로 동작한다. 데이터가 변경됐다고 해서 화면이 바로 변경됨을 보장하지 않는다.
-    // 따라서 아래 포커스 상황이 발생하지 않는다.
-    // useEffect 사용
-    // inputRef.current?.focus() => useEffect 내로 이동
+    // 따라서 아래 포커스 상황이 발생하지 않는다. => useEffect 내에 inputRef.current?.focus() 사용
   }
 
   function offEditMode(isSave: boolean = false) {
@@ -44,7 +52,7 @@ export default function TodoItem({ todo }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 hover:bg-gray-100">
       {isEditMode ? (
         //수정모드
         <>
@@ -72,7 +80,8 @@ export default function TodoItem({ todo }: Props) {
         <>
           <input
             type="checkbox"
-            checked={todo.done}
+            checked={done} //todo.done을 하면 수정할 수 있는 권한이 없음 => 반응형 데이터 만들어주기
+            onChange={e => setDone(e.target.checked)}
           />
           <h3 className="grow">{todo.title}</h3>
           <button onClick={() => onEditMode()}>수정</button>
