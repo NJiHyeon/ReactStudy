@@ -5,7 +5,7 @@ import Button from '../Button'
 
 export default function TodoCreator() {
   const title = useTodoStore(s => s.title) //zustand가 스토어 전체 객체 상태를 넘겨준다.
-  const isLoading = useTodoStore(s => s.isLoading)
+  const isLoading = useTodoStore(s => s.isLoadingForCreate)
   const setTitle = useTodoStore(s => s.setTitle)
   const createTodo = useTodoStore(s => s.createTodo)
 

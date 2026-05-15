@@ -22,7 +22,7 @@ const Home = dynamic(() => import('@/routes/pages/Home'), {
     if (error instanceof Error) message = error.message
     return <h1>에러가 발생했어유... {message}</h1>
   },
-  loading: <Loader />
+  loading: <Loader size={100} />
 })
 const About = dynamic(() => import('@/routes/pages/About'))
 const SignIn = dynamic(() => import('@/routes/pages/SignIn'))
